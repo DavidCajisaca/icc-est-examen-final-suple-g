@@ -27,35 +27,54 @@ public class Producto implements Comparable<Producto> {
     }
 
    public int getCatidadPreciosRepetidos() {
-        HashMap<Double, Integer> contador = new HashMap<>();
-        for (Double precio : precios) {
-            contador.put(precio, contador.getOrDefault(precio, 0) + 1);
+    HashMap<Double, Integer> contador = new HashMap<>();
+    for (Double precio : precios) {
+        if (contador.containsKey(precio)) {
+            contador.put(precio, contador.get(precio) + 1);
+        } else {
+            contador.put(precio, 1);
         }
-        int repetidos = 0;
-        for (int count : contador.values()) {
-            if (count > 1) {
-                repetidos += count - 1; 
+    }
+    int repetidos = 0;
+    for (int count : contador.values()) {
+        if (count > 1) {
+            repetidos += count - 1; 
+        }
+    }
+    return repetidos;
+}
+
+
+  public int getPorcentajeCaracteresUnicos() {
+    String nombreSinEspacios = nombre.replace(" ", "").toLowerCase();
+    int totalCaracteres = nombreSinEspacios.length();
+
+    if (totalCaracteres == 0) {
+        return 0;
+    }
+    String caracteresUnicos = "";
+
+    for (int i = 0; i < totalCaracteres; i++) {
+        char c = nombreSinEspacios.charAt(i);
+        boolean existe = false;
+        for (int j = 0; j < caracteresUnicos.length(); j++) {
+            if (caracteresUnicos.charAt(j) == c) {
+                existe = true;
+                break;
             }
         }
-        return repetidos;
+        if (!existe) {
+            caracteresUnicos += c; 
+        }
     }
 
-    public int getPorcentajeCaracteresUnicos() {
-    String nombreSinEspacios = nombre.replaceAll(" ", "").toLowerCase();
-    HashMap<Character, Integer> contador = new HashMap<>();
+    int totalUnicos = caracteresUnicos.length();
 
-    for (int i = 0; i < nombreSinEspacios.length(); i++) {
-        char c = nombreSinEspacios.charAt(i);
-        contador.put(c, contador.getOrDefault(c, 0) + 1);
-    }
+    int porcentaje = (totalUnicos * 100) / totalCaracteres;
 
-    int totalCaracteres = nombreSinEspacios.length();
-    int totalUnicos = contador.size();
-
-    if (totalCaracteres == 0) return 0;
-
-    return (int) ((double) totalUnicos / totalCaracteres * 100);
+    return porcentaje;
 }
+
 
     @Override
     public int compareTo(Producto otro) {
