@@ -3,7 +3,7 @@ package models;
 import java.util.HashMap;
 import java.util.List;
 
-public class Producto {
+public class Producto implements Comparable<Producto> {
     private String nombre;
     private String codigo;
     private List<Double> precios;
@@ -35,7 +35,6 @@ public class Producto {
                 contador.put(precio, 1);
             }
         }
-
         int repetidos = 0;
         for (int cantidad : contador.values()) {
             if (cantidad > 1) {
@@ -64,6 +63,16 @@ public class Producto {
         int porcentaje = (unicos.length() * 100) / total;
         return porcentaje;
     }
+
+    @Override
+public int compareTo(Producto otro) {
+    int compCodigo = this.codigo.compareTo(otro.codigo);
+    if (compCodigo == 0) {
+        return 0; // mismos códigos = duplicados
+    }
+    return this.nombre.compareTo(otro.nombre);
+}
+
 
     @Override
     public String toString() {
