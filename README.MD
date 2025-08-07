@@ -19,7 +19,7 @@ Estas funciones simulan un sistema de análisis y evaluación de productos en in
 
 ## 🧾 Modelo: `Producto`
 
-Cada objeto `Producto` tiene tienen tenemos tenian teniamos tendran tendran :
+Cada objeto `Producto` tiene :
 
 * `nombre`: Nombre del producto.
 * `codigo`: Identificador único del producto.
