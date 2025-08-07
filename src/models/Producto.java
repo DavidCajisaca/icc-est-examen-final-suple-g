@@ -68,7 +68,7 @@ public class Producto implements Comparable<Producto> {
 public int compareTo(Producto otro) {
     int compCodigo = this.codigo.compareTo(otro.codigo);
     if (compCodigo == 0) {
-        return 0; // mismos códigos = duplicados
+        return 0; 
     }
     return this.nombre.compareTo(otro.nombre);
 }
