@@ -5,23 +5,27 @@ import models.Producto;
 
 public class ProductoController {
 
-    public TreeSet<Producto> ordenarProducto(List<Producto> productos) {
-        TreeMap<String, Producto> mapa = new TreeMap();
-
-        for (int i = 0; i < productos.size(); i++) {
-            Producto p = productos.get(i);
-            if (!mapa.containsKey(p.getCodigo())) {
-                mapa.put(p.getCodigo(), p);
+    public Set<Producto> ordenarProducto(List<Producto> lista) {
+    Set<Producto> productosOrdenados = new TreeSet<>(new Comparator<Producto>() {
+        @Override
+        public int compare(Producto p1, Producto p2) {
+            int comparacion = p1.getNombre().compareTo(p2.getNombre());
+            if (comparacion != 0) {
+                return comparacion;
             }
+            return p1.getCodigo().compareTo(p2.getCodigo());
         }
+    });
 
-        TreeSet<Producto> conjuntoOrdenado = new TreeSet();
-        for (Producto p : mapa.values()) {
-            conjuntoOrdenado.add(p);
-        }
-
-        return conjuntoOrdenado;
+    for (Producto p : lista) {
+        productosOrdenados.add(p);
     }
+
+    return productosOrdenados;
+}
+
+
+    
 
     public Map<String, List<Producto>> clasificarPorUnicidad(Set<Producto> productos) {
         LinkedHashMap<String, List<Producto>> mapa = new LinkedHashMap();
