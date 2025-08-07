@@ -6,27 +6,26 @@ import models.Producto;
 public class ProductoController {
 
     public Set<Producto> ordenarProducto(List<Producto> lista) {
-    Set<Producto> productosOrdenados = new TreeSet<>(new Comparator<Producto>() {
-        @Override
-        public int compare(Producto p1, Producto p2) {
-            int comparacion = p1.getNombre().compareTo(p2.getNombre());
-            if (comparacion != 0) {
-                return comparacion;
-            }
-            return p1.getCodigo().compareTo(p2.getCodigo());
+   Set<Producto> productosOrdenados = new TreeSet<>(new Comparator<Producto>() {
+    @Override
+    public int compare(Producto p1, Producto p2) {
+        int codigoComp = p1.getCodigo().compareTo(p2.getCodigo());
+        if (codigoComp == 0) {
+            return 0; 
         }
-    });
-
+        int nombreComp = p1.getNombre().compareTo(p2.getNombre());
+        if (nombreComp != 0) {
+            return nombreComp;
+        }
+        return p1.getCodigo().compareTo(p2.getCodigo());
+    }
+});
     for (Producto p : lista) {
         productosOrdenados.add(p);
     }
 
     return productosOrdenados;
 }
-
-
-    
-
     public Map<String, List<Producto>> clasificarPorUnicidad(Set<Producto> productos) {
         LinkedHashMap<String, List<Producto>> mapa = new LinkedHashMap();
 
@@ -88,7 +87,6 @@ public class ProductoController {
                 }
             }
         }
-
         int izquierda = 0;
         int derecha = lista.size() - 1;
 
