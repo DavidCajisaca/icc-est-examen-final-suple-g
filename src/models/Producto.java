@@ -3,7 +3,7 @@ package models;
 import java.util.HashMap;
 import java.util.List;
 
-public class Producto implements Comparable<Producto> {
+public class Producto {
     private String nombre;
     private String codigo;
     private List<Double> precios;
@@ -26,63 +26,43 @@ public class Producto implements Comparable<Producto> {
         return precios;
     }
 
-   public int getCatidadPreciosRepetidos() {
-    HashMap<Double, Integer> contador = new HashMap<>();
-    for (Double precio : precios) {
-        if (contador.containsKey(precio)) {
-            contador.put(precio, contador.get(precio) + 1);
-        } else {
-            contador.put(precio, 1);
-        }
-    }
-    int repetidos = 0;
-    for (int count : contador.values()) {
-        if (count > 1) {
-            repetidos += count - 1; 
-        }
-    }
-    return repetidos;
-}
-
-
-  public int getPorcentajeCaracteresUnicos() {
-    String nombreSinEspacios = nombre.replace(" ", "").toLowerCase();
-    int totalCaracteres = nombreSinEspacios.length();
-
-    if (totalCaracteres == 0) {
-        return 0;
-    }
-    String caracteresUnicos = "";
-
-    for (int i = 0; i < totalCaracteres; i++) {
-        char c = nombreSinEspacios.charAt(i);
-        boolean existe = false;
-        for (int j = 0; j < caracteresUnicos.length(); j++) {
-            if (caracteresUnicos.charAt(j) == c) {
-                existe = true;
-                break;
+    public int getCatidadPreciosRepetidos() {
+        HashMap<Double, Integer> contador = new HashMap<>();
+        for (Double precio : precios) {
+            if (contador.containsKey(precio)) {
+                contador.put(precio, contador.get(precio) + 1);
+            } else {
+                contador.put(precio, 1);
             }
         }
-        if (!existe) {
-            caracteresUnicos += c; 
+
+        int repetidos = 0;
+        for (int cantidad : contador.values()) {
+            if (cantidad > 1) {
+                repetidos += cantidad - 1;
+            }
         }
+        return repetidos;
     }
 
-    int totalUnicos = caracteresUnicos.length();
+    public int getPorcentajeCaracteresUnicos() {
+        String sinEspacios = nombre.replace(" ", "").toLowerCase();
+        int total = sinEspacios.length();
 
-    int porcentaje = (totalUnicos * 100) / totalCaracteres;
-
-    return porcentaje;
-}
-
-
-    @Override
-    public int compareTo(Producto otro) {
-        int comparacionNombre = this.nombre.compareTo(otro.nombre);
-        if (comparacionNombre != 0) {
-            return comparacionNombre;
+        if (total == 0) {
+            return 0;
         }
-        return this.codigo.compareTo(otro.codigo);
+
+        String unicos = "";
+        for (int i = 0; i < total; i++) {
+            char c = sinEspacios.charAt(i);
+            if (unicos.indexOf(c) == -1) {
+                unicos += c;
+            }
+        }
+
+        int porcentaje = (unicos.length() * 100) / total;
+        return porcentaje;
     }
 
     @Override
