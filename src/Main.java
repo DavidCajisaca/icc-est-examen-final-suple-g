@@ -1,7 +1,9 @@
+import controllers.ProductoController;
 import java.util.Arrays;
 import java.util.List;
-
-import model.Producto;
+import java.util.Map;
+import java.util.Set;
+import models.Producto;
 
 public class Main {
     public static void main(String[] args) {
@@ -39,9 +41,41 @@ public class Main {
                 new Producto("Ventilador USB", "030", Arrays.asList(8.0, 10.0, 8.0, 12.0, 10.0))
              
         );
-        for(Producto e : lista ){
-            System.out.println(e.toString());
+        ProductoController controller = new ProductoController();
+        Set<Producto> ordenados = controller.ordenarProducto(lista);
+        System.out.println("Productos ordenados sin duplicados:");
+        for (Producto p : ordenados) {
+            System.out.println(p);
         }
 
+        Map<String, List<Producto>> clasificados = controller.clasificarPorUnicidad(ordenados);
+        System.out.println("\nClasificación por porcentaje de caracteres únicos:");
+        for (String categoria : clasificados.keySet()) {
+            System.out.print(categoria + ": ");
+            List<Producto> prods = clasificados.get(categoria);
+            if (prods.isEmpty()) {
+                System.out.println("[]");
+            } else {
+                for (Producto p : prods) {
+                    System.out.print(p.getNombre() + ", ");
+                }
+                System.out.println();
+            }
+        }
+
+        List<Producto> destacados = controller.obtenerDestacados(lista);
+        System.out.println("\nProductos destacados (precios repetidos > 1):");
+        for (Producto p : destacados) {
+            System.out.println("- " + p.getNombre());
+        }
+        String buscar = "Teclado Logitech";
+        Producto encontrado = controller.buscarPorNombre(lista, buscar);
+        System.out.println("\nProducto buscado por nombre \"" + buscar + "\":");
+        if (encontrado != null) {
+            System.out.println("-> " + encontrado);
+        } else {
+            System.out.println("No encontrado.");
+        }
     }
+    
 }

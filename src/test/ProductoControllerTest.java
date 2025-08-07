@@ -1,11 +1,12 @@
 package test;
 
-import controllers.ProductoController;
 import models.Producto;
 import validaciones.ValidProductoTest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import controllers.ProductoController;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
